@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresilove 🍓</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>🍓 Fresilove</h1>
+
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#catalogo">Catálogo</a>
+            <a href="#personalizar">Arma tu pedido</a>
+            <a href="#asistente">Asistente IA ✨</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="inicio">
+            <h2>Un dulce amor en cada cucharada 🍓</h2>
+
+            <p>
+                Disfruta de nuestras deliciosas fresas frescas,
+                acompañadas de crema y tus toppings favoritos.
+                ¡Un antojito hecho con amor!
+            </p>
+
+            <button onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">
+                Ver nuestro menú 🍓
+            </button>
+        </section>
+
+        <section id="catalogo">
+            <h2>Nuestro menú 🍓</h2>
+            <p>Elige tu antojito favorito y disfruta de Fresilove.</p>
+
+            <div class="productos">
+
+                <div class="producto">
+                    <img src="imagenes/fresas.con.crema.jpg" alt="Fresas clásicas con crema">
+
+                    <h3>Fresitas Clásicas 🍓</h3>
+                    <p>Fresas frescas acompañadas de nuestra deliciosa crema.</p>
+                    <span>¡Un clásico irresistible!</span>
+
+                    <h4 class="precio">$8.000</h4>
+
+                    <button onclick="seleccionarProducto('Fresitas Clásicas', 8000)">
+                        Lo quiero 💗
+                    </button>
+                </div>
+
+                <div class="producto">
+                    <img src="imagenes/especiales.jpg" alt="Fresas especiales con crema y toppings">
+
+                    <h3>Fresitas Especiales 💗</h3>
+                    <p>Fresas con crema y una deliciosa combinación de toppings.</p>
+                    <span>¡Más sabor en cada cucharada!</span>
+
+                    <h4 class="precio">$10.000</h4>
+
+                    <button onclick="seleccionarProducto('Fresitas Especiales', 10000)">
+                        Lo quiero 💗
+                    </button>
+                </div>
+
+                <div class="producto">
+                    <img src="imagenes/premium.webp" alt="Fresas premium con crema">
+
+                    <h3>Fresitas Premium ✨</h3>
+                    <p>Una experiencia especial para los amantes de las fresas.</p>
+                    <span>¡Date un gustico!</span>
+
+                    <h4 class="precio">$12.000</h4>
+
+                    <button onclick="seleccionarProducto('Fresitas Premium', 12000)">
+                        Lo quiero 💗
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="personalizar">
+            <h2>¡Arma tu propio Fresilove! 🍓</h2>
+            <p>Personaliza tu vasito como más te guste.</p>
+
+            <div class="personalizador">
+
+                <h3>1. Elige el tamaño</h3>
+
+                <select id="tamano">
+                    <option value="8000">Pequeño - $8.000</option>
+                    <option value="10000">Mediano - $10.000</option>
+                    <option value="12000">Grande - $12.000</option>
+                </select>
+
+                <h3>2. Escoge tus toppings</h3>
+
+                <label>
+                    <input type="checkbox" value="1500" class="topping">
+                    Chispas de chocolate 🍫 (+$1.500)
+                </label>
+
+                <label>
+                    <input type="checkbox" value="1500" class="topping">
+                    Oreo 🍪 (+$1.500)
+                </label>
+
+                <label>
+                    <input type="checkbox" value="2000" class="topping">
+                    Brownie 🍰 (+$2.000)
+                </label>
+
+                <label>
+                    <input type="checkbox" value="1000" class="topping">
+                    Gomitas 🍬 (+$1.000)
+                </label>
+
+                <button onclick="crearPedido()">Crear mi pedido 💗</button>
+
+                <h3 id="total">Total: $8.000</h3>
+
+            </div>
+        </section>
+
+        <!-- ASISTENTE FRESILOVE -->
+
+        <section id="asistente">
+
+            <h2>✨ Tu asistente Fresilove 🍓</h2>
+
+            <p>
+                ¿No sabes qué fresitas elegir?
+                ¡Yo te ayudo a encontrar tu combinación perfecta!
+            </p>
+
+            <div class="asistente-contenido">
+
+                <h3>💗 Cuéntame qué se te antoja</h3>
+
+                <label for="gusto">¿Qué tipo de sabor prefieres?</label>
+
+                <select id="gusto">
+                    <option value="">Selecciona una opción</option>
+                    <option value="chocolate">Chocolate 🍫</option>
+                    <option value="dulce">Algo muy dulce 🍬</option>
+                    <option value="clasico">Algo clásico 🍓</option>
+                    <option value="especial">Algo especial ✨</option>
+                </select>
+
+                <button onclick="recomendarFresilove()">
+                    Recomiéndame algo 💗
+                </button>
+
+                <div id="respuestaAsistente">
+                    <p>¡Aquí aparecerá tu recomendación! 🥰</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- CONTACTO -->
+
+        <section id="contacto">
+            <h2>¡Hablemos de algo delicioso! 🍓</h2>
+
+            <p>
+                ¿Tienes antojo de fresitas con crema?
+                ¡En Fresilove estamos listos para endulzar tu día!
+            </p>
+
+            <div class="contacto-contenido">
+
+                <h3>¡Cuéntanos qué deseas! 💗</h3>
+
+                <form onsubmit="enviarFormulario(event)">
+
+                    <label for="nombre">Tu nombre:</label>
+                    <input
+                        type="text"
+                        id="nombre"
+                        placeholder="Escribe tu nombre"
+                        required
+                    >
+
+                    <label for="telefono">Tu teléfono:</label>
+                    <input
+                        type="tel"
+                        id="telefono"
+                        placeholder="Tu número de contacto"
+                        required
+                    >
+
+                    <label for="pedido">¿Qué te gustaría pedir?</label>
+                    <textarea
+                        id="pedido"
+                        placeholder="Cuéntanos qué fresitas deseas..."
+                        required
+                    ></textarea>
+
+                    <button type="submit">Enviar solicitud 💌</button>
+
+                </form>
+
+                <p class="mensaje-final">
+                    ¡Gracias por apoyar nuestro emprendimiento! 🍓
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Fresilove - Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

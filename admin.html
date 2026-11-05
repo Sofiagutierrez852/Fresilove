@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración | Fresilove 🍓</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="admin.js" defer></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>🍓 Fresilove</h1>
+        <p>Panel de administración</p>
+    </header>
+
+    <main>
+
+        <section id="login">
+            <h2>¡Hola, administradora! 💗</h2>
+            <p>Ingresa tus datos para acceder a Fresilove.</p>
+
+            <form onsubmit="iniciarSesion(event)">
+
+                <label for="usuario">Usuario:</label>
+                <input
+                    type="text"
+                    id="usuario"
+                    placeholder="Escribe tu usuario"
+                    required
+                >
+
+                <label for="contrasena">Contraseña:</label>
+                <input
+                    type="password"
+                    id="contrasena"
+                    placeholder="Escribe tu contraseña"
+                    required
+                >
+
+                <button type="submit">Ingresar 💗</button>
+
+                <p id="mensajeLogin"></p>
+
+            </form>
+        </section>
+
+        <section id="panel" style="display: none;">
+
+            <h2>¡Bienvenida a tu panel! 🍓</h2>
+            <p>Desde aquí podrás administrar tu emprendimiento.</p>
+
+            <div class="opciones-admin">
+                <div>
+                    <h3>🍓 Productos</h3>
+                    <p>Gestiona el catálogo de Fresilove.</p>
+                </div>
+
+                <div>
+                    <h3>📦 Pedidos</h3>
+                    <p>Consulta y organiza los pedidos de tus clientes.</p>
+                </div>
+
+                <div>
+                    <h3>💗 Bienvenida</h3>
+                    <p>Tu espacio para administrar Fresilove.</p>
+                </div>
+            </div>
+
+            <button onclick="cerrarSesion()">Cerrar sesión</button>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
