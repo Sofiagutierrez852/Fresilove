@@ -1,5 +1,5 @@
 
-/* CONFIGURACIÓN GENERAL */
+/* 🍓 CONFIGURACIÓN GENERAL */
 
 * {
     margin: 0;
@@ -14,7 +14,7 @@ body {
     color: #542d38;
 }
 
-/* ENCABEZADO */
+/* 🍓 ENCABEZADO */
 
 header {
     background-color: #ffffff;
@@ -24,12 +24,15 @@ header {
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+    position: relative;
+    z-index: 10;
 }
 
 header h1 {
     color: #d94b70;
-    font-size: 27px;
+    font-size: 29px;
+    letter-spacing: 0.5px;
 }
 
 nav {
@@ -49,11 +52,11 @@ nav a:hover {
     color: #e75480;
 }
 
-/* INICIO */
+/* 🍓 INICIO */
 
 #inicio {
-    min-height: 430px;
-    background: linear-gradient(135deg, #ffe0e8, #fff1f4);
+    min-height: 450px;
+    background: linear-gradient(135deg, #ffe0e8, #fff1f4, #ffedf3);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -78,23 +81,25 @@ nav a:hover {
 /* BOTÓN INICIO */
 
 #inicio button {
-    background-color: #d94b70;
+    background: linear-gradient(135deg, #e75480, #d94378);
     color: white;
     border: none;
-    padding: 14px 28px;
+    padding: 14px 30px;
     border-radius: 30px;
     font-weight: bold;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
+    box-shadow: 0 5px 14px rgba(217,75,112,0.2);
 }
 
 #inicio button:hover {
     background-color: #ad294e;
     transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(217,75,112,0.25);
 }
 
-/* SECCIONES */
+/* 🍓 SECCIONES GENERALES */
 
 section {
     padding: 75px 8%;
@@ -112,7 +117,7 @@ section p {
     line-height: 1.7;
 }
 
-/* CATÁLOGO */
+/* 🍓 CATÁLOGO */
 
 #catalogo {
     background-color: white;
@@ -128,26 +133,27 @@ section p {
 }
 
 .producto {
-    background-color: #fff0f5;
+    background-color: #fff5f8;
     padding: 25px;
-    border-radius: 20px;
+    border: 1px solid #fce1e9;
+    border-radius: 24px;
     width: 280px;
     overflow: hidden;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 18px rgba(0,0,0,0.06);
     transition: 0.3s;
 }
 
 .producto:hover {
     transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(217,75,112,0.18);
+    box-shadow: 0 10px 25px rgba(217,75,112,0.15);
 }
 
 .producto img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 15px;
+    border-radius: 17px;
     margin-bottom: 15px;
     display: block;
 }
@@ -191,85 +197,292 @@ section p {
     transform: scale(1.05);
 }
 
-/* PERSONALIZADOR */
+/* 🍓 PERSONALIZADOR */
 
 #personalizar {
-    background-color: #fff0f3;
+    background: linear-gradient(180deg, #fff0f3, #fff8fa);
     text-align: center;
-    padding: 50px 20px;
+    padding: 75px 20px;
+}
+
+#personalizar > p {
+    color: #805866;
 }
 
 .personalizador {
-    background-color: #fff0f5;
-    max-width: 500px;
-    margin: 25px auto;
-    padding: 30px;
-    border-radius: 25px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    background-color: white;
+    max-width: 540px;
+    margin: 35px auto;
+    padding: 38px;
+    border: 1px solid #f8dce5;
+    border-radius: 28px;
+    box-shadow: 0 10px 30px rgba(180,75,110,0.10);
+    text-align: left;
 }
 
 .personalizador h3 {
-    color: #d94378;
-    margin: 22px 0 15px;
+    color: #c93668;
+    font-size: 20px;
+    margin: 25px 0 16px;
+}
+
+.personalizador h3:first-child {
+    margin-top: 0;
 }
 
 .personalizador select {
-    padding: 12px;
-    border: 2px solid #f3b6cc;
-    border-radius: 12px;
+    padding: 14px;
+    border: 1.5px solid #f3b6cc;
+    border-radius: 13px;
     font-size: 15px;
-    background-color: white;
+    background-color: #fffafd;
+    color: #542d38;
     width: 100%;
+    outline: none;
+    transition: 0.3s;
+}
+
+.personalizador select:focus {
+    border-color: #e75480;
+    box-shadow: 0 0 0 3px rgba(231,84,128,0.10);
 }
 
 .personalizador label {
     display: block;
     text-align: left;
-    margin: 15px 0;
+    margin: 13px 0;
     color: #704455;
+    line-height: 1.5;
 }
 
 .personalizador input[type="checkbox"] {
     accent-color: #e75480;
     transform: scale(1.2);
-    margin-right: 8px;
+    margin-right: 9px;
+    cursor: pointer;
 }
 
+/* DATOS DEL CLIENTE */
+
+.personalizador input[type="text"],
+.personalizador input[type="tel"] {
+    display: block;
+    width: 100%;
+    padding: 14px 15px;
+    margin: 9px 0 18px;
+    border: 1.5px solid #f3c5d3;
+    border-radius: 13px;
+    background-color: #fffafd;
+    color: #542d38;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.personalizador input[type="text"]:focus,
+.personalizador input[type="tel"]:focus {
+    border-color: #e75480;
+    box-shadow: 0 0 0 3px rgba(231,84,128,0.10);
+    background-color: white;
+}
+
+.personalizador input::placeholder {
+    color: #b99aa5;
+}
+
+/* BOTÓN CREAR PEDIDO */
+
 .personalizador button {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #e75480, #d94378);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 25px;
+    transition: 0.3s;
+    box-shadow: 0 5px 14px rgba(217,75,112,0.18);
+}
+
+.personalizador button:hover {
+    background: #c93668;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(217,75,112,0.25);
+}
+
+#total {
+    text-align: center;
+    color: #d94378;
+    background-color: #fff0f5;
+    padding: 17px;
+    border-radius: 15px;
+    margin-top: 25px;
+    font-size: 22px;
+}
+
+/* 💗 ASISTENTE FRESILOVE */
+
+#asistente {
+    background: linear-gradient(135deg, #fff5f8, #ffeaf1);
+}
+
+.asistente-contenido {
+    background-color: white;
+    max-width: 550px;
+    margin: 30px auto;
+    padding: 35px;
+    border-radius: 25px;
+    border: 1px solid #f8dce5;
+    box-shadow: 0 8px 25px rgba(180,75,110,0.08);
+}
+
+.asistente-contenido h3 {
+    color: #d94378;
+    margin-bottom: 20px;
+}
+
+.asistente-contenido label {
+    display: block;
+    margin: 15px 0;
+    text-align: left;
+    color: #704455;
+}
+
+.asistente-contenido select {
+    width: 100%;
+    padding: 13px;
+    border: 1.5px solid #f3b6cc;
+    border-radius: 12px;
+    background-color: #fffafd;
+    color: #542d38;
+    font-size: 15px;
+}
+
+.asistente-contenido button {
     background-color: #e75480;
     color: white;
     border: none;
     padding: 13px 25px;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 20px 0;
+    transition: 0.3s;
 }
 
-.personalizador button:hover {
+.asistente-contenido button:hover {
     background-color: #c93668;
+    transform: translateY(-2px);
 }
 
-/* CONTACTO */
+#respuestaAsistente {
+    background-color: #fff2f6;
+    padding: 20px;
+    border-radius: 17px;
+    margin-top: 10px;
+    line-height: 1.7;
+}
+
+#respuestaAsistente h3 {
+    color: #c93668;
+}
+
+/* 💌 CONTACTO */
 
 #contacto {
     background-color: white;
     text-align: center;
-    padding: 50px 20px;
+    padding: 75px 20px;
+}
+
+#contacto > p {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #765361;
 }
 
 .contacto-contenido {
-    background-color: #fff0f5;
-    max-width: 550px;
-    margin: 25px auto;
-    padding: 35px 25px;
-    border-radius: 25px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(145deg, #fff5f8, #fffafd);
+    max-width: 570px;
+    margin: 35px auto;
+    padding: 40px 35px;
+    border: 1px solid #f8dce5;
+    border-radius: 28px;
+    box-shadow: 0 9px 28px rgba(180,75,110,0.09);
 }
 
 .contacto-contenido h3 {
     color: #d94378;
     font-size: 23px;
+    margin-bottom: 25px;
+}
+
+.contacto-contenido form {
+    text-align: left;
+}
+
+.contacto-contenido form label {
+    display: block;
+    color: #704455;
+    font-weight: 600;
+    margin: 18px 0 8px;
+}
+
+.contacto-contenido form input,
+.contacto-contenido form textarea {
+    display: block;
+    width: 100%;
+    padding: 14px 15px;
+    border: 1.5px solid #f3c5d3;
+    border-radius: 13px;
+    background-color: white;
+    color: #542d38;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.contacto-contenido form input:focus,
+.contacto-contenido form textarea:focus {
+    border-color: #e75480;
+    box-shadow: 0 0 0 3px rgba(231,84,128,0.10);
+}
+
+.contacto-contenido form input::placeholder,
+.contacto-contenido form textarea::placeholder {
+    color: #b99aa5;
+}
+
+.contacto-contenido form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.contacto-contenido form button {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #e75480, #d94378);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: 0.3s;
+}
+
+.contacto-contenido form button:hover {
+    background: #c93668;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(217,75,112,0.20);
 }
 
 .boton-whatsapp {
@@ -291,17 +504,17 @@ section p {
 
 .mensaje-final {
     color: #d94378;
-    margin-top: 20px;
+    margin-top: 25px;
     font-style: italic;
 }
 
-/* PIE DE PÁGINA */
+/* 🍓 PIE DE PÁGINA */
 
 footer {
-    background-color: #e75480;
+    background: linear-gradient(135deg, #e75480, #c93668);
     color: white;
     text-align: center;
-    padding: 25px 15px;
+    padding: 28px 15px;
     margin-top: 30px;
 }
 
@@ -310,22 +523,36 @@ footer p {
     font-size: 14px;
 }
 
-/* ADAPTACIÓN A CELULARES */
+/* 📱 ADAPTACIÓN A CELULARES */
 
 @media (max-width: 700px) {
 
     header {
         flex-direction: column;
         text-align: center;
+        padding: 20px 15px;
     }
 
     nav {
         justify-content: center;
-        gap: 15px;
+        gap: 14px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    #inicio {
+        min-height: 380px;
+        padding: 50px 20px;
     }
 
     #inicio h2 {
         font-size: 30px;
+    }
+
+    #inicio p {
+        font-size: 16px;
     }
 
     section h2 {
@@ -338,6 +565,17 @@ footer p {
 
     .producto {
         width: 100%;
-        max-width: 320px;
+        max-width: 340px;
+    }
+
+    .personalizador,
+    .contacto-contenido,
+    .asistente-contenido {
+        width: 100%;
+        padding: 25px 20px;
+    }
+
+    .personalizador h3 {
+        font-size: 18px;
     }
 }

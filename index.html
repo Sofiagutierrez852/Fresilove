@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresilove 🍓</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Conexion con Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script src="script.js" defer></script>
 </head>
 
@@ -40,7 +45,7 @@
 
         <section id="catalogo">
             <h2>Nuestro menú 🍓</h2>
-            <p>Elige tu antojito favorito y disfruta de Fresilove.</p>
+            <p>Descubre nuestras deliciosas opciones y encuentra tu favorita.</p>
 
             <div class="productos">
 
@@ -52,10 +57,6 @@
                     <span>¡Un clásico irresistible!</span>
 
                     <h4 class="precio">$8.000</h4>
-
-                    <button onclick="seleccionarProducto('Fresitas Clásicas', 8000)">
-                        Lo quiero 💗
-                    </button>
                 </div>
 
                 <div class="producto">
@@ -65,10 +66,6 @@
                     <span>¡Más sabor en cada cucharada!</span>
 
                     <h4 class="precio">$10.000</h4>
-
-                    <button onclick="seleccionarProducto('Fresitas Especiales', 10000)">
-                        Lo quiero 💗
-                    </button>
                 </div>
 
                 <div class="producto">
@@ -79,13 +76,18 @@
                     <span>¡Date un gustico!</span>
 
                     <h4 class="precio">$12.000</h4>
-
-                    <button onclick="seleccionarProducto('Fresitas Premium', 12000)">
-                        Lo quiero 💗
-                    </button>
                 </div>
 
             </div>
+
+            <p>
+                ¿Se te antojaron? 😍
+                ¡Personaliza tu vasito y agrega tus toppings favoritos!
+            </p>
+
+            <button onclick="document.getElementById('personalizar').scrollIntoView({behavior:'smooth'})">
+                Crear mi pedido 💗
+            </button>
         </section>
 
         <section id="personalizar">
@@ -123,6 +125,25 @@
                     <input type="checkbox" value="1000" class="topping">
                     Gomitas 🍬 (+$1.000)
                 </label>
+
+                <!-- DATOS DEL CLIENTE -->
+                <h3>3. Tus datos 💗</h3>
+
+                <label for="nombrePedido">Tu nombre:</label>
+                <input
+                    type="text"
+                    id="nombrePedido"
+                    placeholder="Escribe tu nombre"
+                    required
+                >
+
+                <label for="telefonoPedido">Tu teléfono:</label>
+                <input
+                    type="tel"
+                    id="telefonoPedido"
+                    placeholder="Tu número de contacto"
+                    required
+                >
 
                 <button onclick="crearPedido()">Crear mi pedido 💗</button>
 
