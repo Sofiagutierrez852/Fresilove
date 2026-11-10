@@ -2,10 +2,6 @@
 // 🍓 CONEXIÓN CON SUPABASE
 
 const SUPABASE_URL = "https://krsofdxpmmyfsaggjzlq.supabase.co";
-
-// Conserva tu clave Publishable de Supabase.
-// No uses la clave Secret.
-
 const SUPABASE_KEY = "sb_publishable_AE4HURLhArZKbozwZCzwXg_PhlzsdJH";
 
 const supabaseClient = window.supabase.createClient(
@@ -126,13 +122,18 @@ async function crearPedido() {
         return;
     }
 
-    // Obtener los datos del cliente
-
     const nombre = document.getElementById("nombrePedido").value.trim();
     const telefono = document.getElementById("telefonoPedido").value.trim();
 
     if (!nombre || !telefono) {
         alert("Por favor, escribe tu nombre y teléfono antes de continuar 💗");
+        return;
+    }
+
+    // VALIDAR TELÉFONO: EXACTAMENTE 10 DÍGITOS
+
+    if (!/^[0-9]{10}$/.test(telefono)) {
+        alert("Tu número de teléfono debe tener exactamente 10 dígitos 💗");
         return;
     }
 
@@ -204,9 +205,19 @@ async function enviarFormulario(event) {
 
     event.preventDefault();
 
-    const nombre = document.getElementById("nombre").value;
-    const telefono = document.getElementById("telefono").value;
-    const pedido = document.getElementById("pedido").value;
+    const nombre = document.getElementById("nombre").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const pedido = document.getElementById("pedido").value.trim();
+
+    if (!/^[0-9]{10}$/.test(telefono)) {
+        alert("Por favor, ingresa un número de teléfono válido de 10 dígitos 💗");
+        return;
+    }
+
+    if (!nombre || !pedido) {
+        alert("Por favor, completa todos los campos 💗");
+        return;
+    }
 
     const guardado = await guardarPedido({
         nombreCliente: nombre,
