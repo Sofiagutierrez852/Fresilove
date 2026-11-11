@@ -579,3 +579,59 @@ footer p {
         font-size: 18px;
     }
 }
+
+/* 🍓 PANEL DE ADMINISTRACIÓN */
+
+.administracion {
+    background-color: #fff0f5;
+    padding: 35px 20px;
+    margin: 40px auto;
+    border-radius: 20px;
+    max-width: 800px;
+    text-align: center;
+}
+
+.login-admin {
+    max-width: 400px;
+    margin: 25px auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.login-admin form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.login-admin input {
+    padding: 12px;
+    border: 1px solid #e8b5c7;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.login-admin button,
+.encabezado-admin button {
+    background-color: #e75480;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.encabezado-admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+#listaPedidos {
+    margin-top: 20px;
+    text-align: left;
+}

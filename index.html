@@ -244,6 +244,48 @@
             </div>
         </section>
 
+        <!-- 🍓 PANEL DE ADMINISTRACIÓN -->
+
+        <section id="administracion" class="administracion">
+            <h2>Administración de Fresilove 🍓</h2>
+            <p>Inicia sesión para administrar tus pedidos.</p>
+
+            <!-- INICIO DE SESIÓN -->
+            <div id="loginAdmin" class="login-admin">
+                <form id="formularioLogin">
+                    <label for="correoAdmin">Correo electrónico</label>
+                    <input
+                        type="email"
+                        id="correoAdmin"
+                        placeholder="Tu correo de administrador"
+                        required
+                    >
+
+                    <label for="contrasenaAdmin">Contraseña</label>
+                    <input
+                        type="password"
+                        id="contrasenaAdmin"
+                        placeholder="Tu contraseña"
+                        required
+                    >
+
+                    <button type="submit">Iniciar sesión</button>
+                    <p id="mensajeLogin"></p>
+                </form>
+            </div>
+
+            <!-- PANEL DE PEDIDOS -->
+            <div id="panelAdmin" hidden>
+                <div class="encabezado-admin">
+                    <h3>Pedidos recibidos</h3>
+                    <button type="button" id="cerrarSesion">Cerrar sesión</button>
+                </div>
+
+                <p id="mensajePedidos"></p>
+                <div id="listaPedidos"></div>
+            </div>
+        </section>
+
     </main>
 
     <footer>

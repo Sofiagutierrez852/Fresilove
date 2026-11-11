@@ -298,3 +298,184 @@ function recomendarFresilove() {
 
     respuesta.innerHTML = recomendacion;
 }
+
+// ======================================
+// 🍓 ADMINISTRACIÓN DE FRESILOVE
+// ======================================
+
+const ADMIN_UID = "1ec0eed1-538d-4b99-9917-6b132831746b";
+
+const formularioLogin = document.getElementById("formularioLogin");
+const loginAdmin = document.getElementById("loginAdmin");
+const panelAdmin = document.getElementById("panelAdmin");
+const mensajeLogin = document.getElementById("mensajeLogin");
+const mensajePedidos = document.getElementById("mensajePedidos");
+const listaPedidos = document.getElementById("listaPedidos");
+const cerrarSesion = document.getElementById("cerrarSesion");
+
+// Evita insertar texto de pedidos como código HTML.
+function escaparHTML(texto) {
+    return String(texto ?? "").replace(/[&<>"']/g, caracter => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[caracter]);
+}
+
+// Mostrar el inicio de sesión.
+function mostrarLogin() {
+    loginAdmin.hidden = false;
+    panelAdmin.hidden = true;
+}
+
+// Mostrar el panel administrativo.
+function mostrarPanel() {
+    loginAdmin.hidden = true;
+    panelAdmin.hidden = false;
+}
+
+// Cargar los pedidos desde Supabase.
+async function cargarPedidos() {
+    mensajePedidos.textContent = "Cargando pedidos...";
+    listaPedidos.innerHTML = "";
+
+    const { data, error } = await supabaseClient
+        .from("pedidos")
+        .select("*")
+        .order("creado_en", { ascending: false });
+
+    if (error) {
+        mensajePedidos.textContent = "No se pudieron cargar los pedidos: " + error.message;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        mensajePedidos.textContent = "Todavía no hay pedidos registrados 🍓";
+        return;
+    }
+
+    mensajePedidos.textContent = `Tienes ${data.length} pedido(s) registrados. 💗`;
+
+    listaPedidos.innerHTML = data.map(pedido => `
+        <article class="pedido-admin">
+            <h3>Pedido #${escaparHTML(pedido.id)}</h3>
+
+            <p><strong>Cliente:</strong> ${escaparHTML(pedido.nombre_cliente)}</p>
+            <p><strong>Teléfono:</strong> ${escaparHTML(pedido.telefono)}</p>
+            <p><strong>Detalle:</strong> ${escaparHTML(pedido.notas)}</p>
+            <p><strong>Total:</strong> $${Number(pedido.total || 0).toLocaleString("es-CO")}</p>
+            <p><strong>Estado actual:</strong> ${escaparHTML(pedido.estado)}</p>
+
+            <label for="estado-${escaparHTML(pedido.id)}">
+                Cambiar estado:
+            </label>
+
+            <select
+                class="estado-pedido"
+                id="estado-${escaparHTML(pedido.id)}"
+                data-id="${escaparHTML(pedido.id)}"
+            >
+                <option value="nuevo" ${pedido.estado === "nuevo" ? "selected" : ""}>Nuevo</option>
+                <option value="preparando" ${pedido.estado === "preparando" ? "selected" : ""}>Preparando</option>
+                <option value="listo" ${pedido.estado === "listo" ? "selected" : ""}>Listo</option>
+                <option value="entregado" ${pedido.estado === "entregado" ? "selected" : ""}>Entregado</option>
+                <option value="cancelado" ${pedido.estado === "cancelado" ? "selected" : ""}>Cancelado</option>
+                <option value="consulta" ${pedido.estado === "consulta" ? "selected" : ""}>Consulta</option>
+            </select>
+        </article>
+    `).join("");
+}
+
+// Iniciar sesión.
+formularioLogin.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    mensajeLogin.textContent = "Verificando acceso...";
+
+    const correo = document.getElementById("correoAdmin").value.trim();
+    const contrasena = document.getElementById("contrasenaAdmin").value;
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: correo,
+        password: contrasena
+    });
+
+    if (error) {
+        mensajeLogin.textContent = "No se pudo iniciar sesión. Revisa tus datos.";
+        console.error(error);
+        return;
+    }
+
+    // Comprobar que la cuenta sea la administradora autorizada.
+    if (data.user.id !== ADMIN_UID) {
+        await supabaseClient.auth.signOut();
+        mensajeLogin.textContent = "Esta cuenta no tiene permiso de administración.";
+        return;
+    }
+
+    mensajeLogin.textContent = "";
+    mostrarPanel();
+    await cargarPedidos();
+});
+
+// Cambiar el estado de un pedido.
+listaPedidos.addEventListener("change", async function(event) {
+    if (!event.target.classList.contains("estado-pedido")) {
+        return;
+    }
+
+    const idPedido = event.target.dataset.id;
+    const nuevoEstado = event.target.value;
+
+    mensajePedidos.textContent = "Actualizando pedido...";
+
+    const { error } = await supabaseClient
+        .from("pedidos")
+        .update({ estado: nuevoEstado })
+        .eq("id", idPedido);
+
+    if (error) {
+        mensajePedidos.textContent = "No se pudo actualizar: " + error.message;
+        console.error(error);
+        return;
+    }
+
+    mensajePedidos.textContent = "¡Estado actualizado correctamente! 💗";
+    await cargarPedidos();
+});
+
+// Cerrar sesión.
+cerrarSesion.addEventListener("click", async function() {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+        mensajePedidos.textContent = "No se pudo cerrar sesión.";
+        return;
+    }
+
+    formularioLogin.reset();
+    mostrarLogin();
+});
+
+// Comprobar si ya existe una sesión iniciada.
+async function comprobarSesionAdmin() {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error || !data.session) {
+        mostrarLogin();
+        return;
+    }
+
+    if (data.session.user.id !== ADMIN_UID) {
+        await supabaseClient.auth.signOut();
+        mostrarLogin();
+        return;
+    }
+
+    mostrarPanel();
+    await cargarPedidos();
+}
+
+comprobarSesionAdmin();
