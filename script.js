@@ -208,17 +208,37 @@ async function enviarFormulario(event) {
     const nombre = document.getElementById("nombre").value.trim();
     const telefono = document.getElementById("telefono").value.trim();
     const pedido = document.getElementById("pedido").value.trim();
+    const mensajeContacto = document.getElementById("mensajeContacto");
 
+    // Limpiar mensajes anteriores.
+    mensajeContacto.textContent = "";
+    mensajeContacto.className = "";
+
+    // Validar teléfono.
     if (!/^[0-9]{10}$/.test(telefono)) {
-        alert("Por favor, ingresa un número de teléfono válido de 10 dígitos 💗");
+        mensajeContacto.textContent =
+            "Por favor, ingresa un número de teléfono válido de 10 dígitos 💗";
+        mensajeContacto.className = "mensaje-contacto error";
         return;
     }
 
+    // Validar campos.
     if (!nombre || !pedido) {
-        alert("Por favor, completa todos los campos 💗");
+        mensajeContacto.textContent =
+            "Por favor, completa todos los campos 💗";
+        mensajeContacto.className = "mensaje-contacto error";
         return;
     }
 
+    // Mostrar mensaje mientras se guarda.
+    mensajeContacto.textContent =
+        "Estamos registrando tu solicitud... 🍓";
+    mensajeContacto.className = "mensaje-contacto";
+
+    // Abrir una ventana para evitar que el navegador bloquee WhatsApp.
+    const ventana = window.open("about:blank", "_blank");
+
+    // Guardar consulta en Supabase.
     const guardado = await guardarPedido({
         nombreCliente: nombre,
         telefono: telefono,
@@ -227,8 +247,16 @@ async function enviarFormulario(event) {
         estado: "consulta"
     });
 
-    if (!guardado) return;
+    if (!guardado) {
+        if (ventana) ventana.close();
 
+        mensajeContacto.textContent =
+            "No pudimos guardar tu solicitud. Inténtalo nuevamente 💗";
+        mensajeContacto.className = "mensaje-contacto error";
+        return;
+    }
+
+    // Preparar mensaje de WhatsApp.
     const mensaje =
         "🍓 ¡Hola Fresilove! Tengo una solicitud:\n\n" +
         "Nombre: " + nombre + "\n" +
@@ -241,7 +269,21 @@ async function enviarFormulario(event) {
     const enlace = "https://wa.me/" + numero +
         "?text=" + encodeURIComponent(mensaje);
 
-    window.open(enlace, "_blank");
+    // Mostrar confirmación.
+    mensajeContacto.textContent =
+        "¡Tu solicitud se guardó correctamente! Ahora puedes continuar por WhatsApp 💗🍓";
+
+    mensajeContacto.className = "mensaje-contacto exito";
+
+    // Abrir WhatsApp.
+    if (ventana) {
+        ventana.location.href = enlace;
+    } else {
+        window.location.href = enlace;
+    }
+
+    // Limpiar formulario.
+    event.target.reset();
 }
 
 
@@ -298,6 +340,7 @@ function recomendarFresilove() {
 
     respuesta.innerHTML = recomendacion;
 }
+
 
 // ======================================
 // 🍓 ADMINISTRACIÓN DE FRESILOVE

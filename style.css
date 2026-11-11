@@ -635,3 +635,26 @@ footer p {
     margin-top: 20px;
     text-align: left;
 }
+/* 🍓 MENSAJES DEL FORMULARIO DE CONTACTO */
+
+.mensaje-contacto {
+    margin-top: 15px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.mensaje-contacto:empty {
+    display: none;
+}
+
+.mensaje-contacto.error {
+    color: #9b1c31;
+    background-color: #ffe5eb;
+}
+
+.mensaje-contacto.exito {
+    color: #176b3a;
+    background-color: #e4f7eb;
+}
