@@ -635,6 +635,7 @@ footer p {
     margin-top: 20px;
     text-align: left;
 }
+
 /* 🍓 MENSAJES DEL FORMULARIO DE CONTACTO */
 
 .mensaje-contacto {
@@ -657,4 +658,51 @@ footer p {
 .mensaje-contacto.exito {
     color: #176b3a;
     background-color: #e4f7eb;
+}
+
+/* 🍓 BOTÓN CREAR PEDIDO - PERSONALIZADOR */
+
+.personalizador button[onclick="crearPedido()"] {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 25px auto;
+    padding: 16px 25px;
+    background: linear-gradient(135deg, #ff6f91, #ff3f70);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(255, 63, 112, 0.25);
+    transition: all 0.3s ease;
+}
+
+.personalizador button[onclick="crearPedido()"]:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(255, 63, 112, 0.35);
+    background: linear-gradient(135deg, #ff3f70, #e92e62);
+}
+
+/* 💗 BOTÓN CREAR MI PEDIDO DEL INICIO */
+
+button[onclick*="personalizar"] {
+    background: linear-gradient(135deg, #ff80a0, #ff4f7b) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 30px !important;
+    padding: 15px 30px !important;
+    margin-top: 15px !important;
+    font-size: 17px !important;
+    font-weight: bold !important;
+    box-shadow: 0 5px 14px rgba(255, 79, 123, 0.25);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[onclick*="personalizar"]:hover {
+    background: linear-gradient(135deg, #ff4f7b, #ed3265) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(255, 79, 123, 0.35);
 }
