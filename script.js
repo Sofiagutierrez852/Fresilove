@@ -210,11 +210,9 @@ async function enviarFormulario(event) {
     const pedido = document.getElementById("pedido").value.trim();
     const mensajeContacto = document.getElementById("mensajeContacto");
 
-    // Limpiar mensajes anteriores.
     mensajeContacto.textContent = "";
     mensajeContacto.className = "";
 
-    // Validar teléfono.
     if (!/^[0-9]{10}$/.test(telefono)) {
         mensajeContacto.textContent =
             "Por favor, ingresa un número de teléfono válido de 10 dígitos 💗";
@@ -222,7 +220,6 @@ async function enviarFormulario(event) {
         return;
     }
 
-    // Validar campos.
     if (!nombre || !pedido) {
         mensajeContacto.textContent =
             "Por favor, completa todos los campos 💗";
@@ -230,15 +227,12 @@ async function enviarFormulario(event) {
         return;
     }
 
-    // Mostrar mensaje mientras se guarda.
     mensajeContacto.textContent =
         "Estamos registrando tu solicitud... 🍓";
     mensajeContacto.className = "mensaje-contacto";
 
-    // Abrir una ventana para evitar que el navegador bloquee WhatsApp.
     const ventana = window.open("about:blank", "_blank");
 
-    // Guardar consulta en Supabase.
     const guardado = await guardarPedido({
         nombreCliente: nombre,
         telefono: telefono,
@@ -256,7 +250,6 @@ async function enviarFormulario(event) {
         return;
     }
 
-    // Preparar mensaje de WhatsApp.
     const mensaje =
         "🍓 ¡Hola Fresilove! Tengo una solicitud:\n\n" +
         "Nombre: " + nombre + "\n" +
@@ -269,20 +262,17 @@ async function enviarFormulario(event) {
     const enlace = "https://wa.me/" + numero +
         "?text=" + encodeURIComponent(mensaje);
 
-    // Mostrar confirmación.
     mensajeContacto.textContent =
         "¡Tu solicitud se guardó correctamente! Ahora puedes continuar por WhatsApp 💗🍓";
 
     mensajeContacto.className = "mensaje-contacto exito";
 
-    // Abrir WhatsApp.
     if (ventana) {
         ventana.location.href = enlace;
     } else {
         window.location.href = enlace;
     }
 
-    // Limpiar formulario.
     event.target.reset();
 }
 
@@ -292,53 +282,205 @@ async function enviarFormulario(event) {
 function recomendarFresilove() {
 
     const gusto = document.getElementById("gusto").value;
+    const preferencia = document.getElementById("preferenciaAsistente").value;
+    const evitar = document.getElementById("evitarAsistente").value;
+    const descripcion = document.getElementById("descripcionAntojo").value.toLowerCase();
     const respuesta = document.getElementById("respuestaAsistente");
 
-    if (gusto === "") {
-        respuesta.innerHTML = "<p>💗 Primero debes elegir qué sabor se te antoja.</p>";
+    // Normalizar texto y eliminar tildes.
+    const texto = descripcion
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+    let gustoFinal = gusto;
+
+    const precios = {
+        chocolate: 1500,
+        oreo: 1500,
+        brownie: 2000,
+        gomitas: 1000
+    };
+
+    const ingredientes = ["chocolate", "oreo", "brownie", "gomitas"];
+
+    let ingredientesEvitados = [];
+
+    if (evitar) {
+        ingredientesEvitados.push(evitar);
+    }
+
+    // Detectar ingredientes que el cliente no quiere.
+    ingredientes.forEach(function(ingrediente) {
+
+        const expresion = new RegExp(
+            "\\b(sin|no quiero|no me gusta|no deseo|evitar|evito|nada de)\\s+(el\\s+|la\\s+|los\\s+|las\\s+)?(" +
+            ingrediente + ")\\b"
+        );
+
+        if (expresion.test(texto) && !ingredientesEvitados.includes(ingrediente)) {
+            ingredientesEvitados.push(ingrediente);
+        }
+    });
+
+    // Eliminar las expresiones negativas del texto.
+    let textoPositivo = texto;
+
+    ingredientes.forEach(function(ingrediente) {
+
+        const expresion = new RegExp(
+            "\\b(sin|no quiero|no me gusta|no deseo|evitar|evito|nada de)\\s+(el\\s+|la\\s+|los\\s+|las\\s+)?(" +
+            ingrediente + ")\\b",
+            "g"
+        );
+
+        textoPositivo = textoPositivo.replace(expresion, " ");
+    });
+
+    // Reconocer primero Oreo, antes que chocolate.
+    if (!gustoFinal) {
+
+        if (textoPositivo.includes("oreo")) {
+            gustoFinal = "dulce";
+
+        } else if (textoPositivo.includes("chocolate")) {
+            gustoFinal = "chocolate";
+
+        } else if (textoPositivo.includes("dulce")) {
+            gustoFinal = "dulce";
+
+        } else if (
+            textoPositivo.includes("fruta") ||
+            textoPositivo.includes("frutal")
+        ) {
+            gustoFinal = "frutal";
+
+        } else if (
+            textoPositivo.includes("especial") ||
+            textoPositivo.includes("compartir")
+        ) {
+            gustoFinal = "especial";
+
+        } else if (textoPositivo.includes("clasico")) {
+            gustoFinal = "clasico";
+        }
+    }
+
+    // Solicitar más información si hace falta.
+    if (
+        !gustoFinal &&
+        !preferencia &&
+        ingredientesEvitados.length === 0 &&
+        !descripcion.trim()
+    ) {
+        respuesta.textContent =
+            "💗 Cuéntanos qué se te antoja o selecciona un sabor para recomendarte algo delicioso.";
         return;
     }
 
-    let recomendacion = "";
-
-    if (gusto === "chocolate") {
-
-        recomendacion = `
-            <h3>🍫 ¡Tenemos tu combinación!</h3>
-            <p>Te recomendamos nuestras Fresitas Especiales con chispas de chocolate y brownie.</p>
-            <p><strong>Precio sugerido: $13.500</strong></p>
-            <p>¡Una combinación perfecta para los amantes del chocolate! 💗</p>
-        `;
-
-    } else if (gusto === "dulce") {
-
-        recomendacion = `
-            <h3>🍬 ¡Algo muy dulce para ti!</h3>
-            <p>Te recomendamos unas Fresitas Premium con Oreo y gomitas.</p>
-            <p><strong>Precio sugerido: $14.500</strong></p>
-            <p>¡Un antojito lleno de sabor y dulzura! 🍓</p>
-        `;
-
-    } else if (gusto === "clasico") {
-
-        recomendacion = `
-            <h3>🍓 ¡Lo clásico nunca falla!</h3>
-            <p>Te recomendamos nuestras Fresitas Clásicas.</p>
-            <p><strong>Precio: $8.000</strong></p>
-            <p>Fresas frescas con nuestra deliciosa crema. 💗</p>
-        `;
-
-    } else if (gusto === "especial") {
-
-        recomendacion = `
-            <h3>✨ ¡Algo especial para ti!</h3>
-            <p>Te recomendamos nuestras Fresitas Premium con brownie y Oreo.</p>
-            <p><strong>Precio sugerido: $15.500</strong></p>
-            <p>¡Una experiencia deliciosa! 🍓</p>
-        `;
+    if (
+        !gustoFinal &&
+        !preferencia &&
+        ingredientesEvitados.length === 0
+    ) {
+        respuesta.textContent =
+            "💗 Cuéntanos un poquito más sobre tu antojo para recomendarte algo delicioso.";
+        return;
     }
 
-    respuesta.innerHTML = recomendacion;
+    // Evitar que un ingrediente sea favorito y prohibido.
+    if (preferencia && ingredientesEvitados.includes(preferencia)) {
+        respuesta.textContent =
+            "💗 Has elegido el mismo ingrediente como favorito y como ingrediente que deseas evitar. ¡Cambia una de las opciones!";
+        return;
+    }
+
+    // Elegir base.
+    let nombreBase = "Fresitas medianas";
+    let precioBase = 10000;
+
+    if (gustoFinal === "clasico") {
+        nombreBase = "Fresitas clásicas";
+        precioBase = 8000;
+    }
+
+    // Elegir toppings.
+    let toppings = [];
+
+    if (gustoFinal === "chocolate") {
+        toppings = ["chocolate", "brownie"];
+
+    } else if (gustoFinal === "dulce") {
+        toppings = ["oreo", "gomitas"];
+
+    } else if (gustoFinal === "especial") {
+        toppings = ["brownie", "oreo"];
+
+    } else if (gustoFinal === "frutal") {
+        toppings = [];
+    }
+
+    // Agregar ingrediente favorito.
+    if (preferencia && precios[preferencia]) {
+        if (!toppings.includes(preferencia)) {
+            toppings.push(preferencia);
+        }
+    }
+
+    // Quitar ingredientes no deseados.
+    toppings = toppings.filter(function(topping) {
+        return !ingredientesEvitados.includes(topping);
+    });
+
+    if (gustoFinal === "clasico") {
+        toppings = [];
+    }
+
+    // Calcular total.
+    let total = precioBase;
+
+    toppings.forEach(function(topping) {
+        total += precios[topping];
+    });
+
+    const nombres = {
+        chocolate: "Chispas de chocolate",
+        oreo: "Oreo",
+        brownie: "Brownie",
+        gomitas: "Gomitas"
+    };
+
+    const detalleToppings = toppings.length
+        ? toppings.map(function(topping) {
+            return nombres[topping];
+        }).join(" y ")
+        : "Sin toppings adicionales";
+
+    let mensaje = "💗 ¡Preparamos una recomendación para tu antojo!";
+
+    if (gustoFinal === "chocolate") {
+        mensaje = "🍫 ¡Una combinación para los amantes del chocolate!";
+
+    } else if (gustoFinal === "dulce") {
+        mensaje = "🍬 ¡Una opción llena de dulzura!";
+
+    } else if (gustoFinal === "clasico") {
+        mensaje = "🍓 ¡Lo clásico nunca falla!";
+
+    } else if (gustoFinal === "especial") {
+        mensaje = "✨ ¡Una combinación especial para consentirte!";
+
+    } else if (gustoFinal === "frutal") {
+        mensaje = "🍓 ¡Una opción sencilla y deliciosa!";
+    }
+
+    respuesta.textContent =
+        mensaje + "\n\n" +
+        "Te recomendamos: " + nombreBase + "\n" +
+        "Toppings: " + detalleToppings + "\n\n" +
+        "Precio de la base: $" + precioBase.toLocaleString("es-CO") + "\n" +
+        "Precio de los toppings: $" + (total - precioBase).toLocaleString("es-CO") + "\n" +
+        "TOTAL ESTIMADO: $" + total.toLocaleString("es-CO") +
+        "\n\n¡Esperamos que disfrutes tus Fresilove! 🍓💗";
 }
 
 
@@ -356,7 +498,6 @@ const mensajePedidos = document.getElementById("mensajePedidos");
 const listaPedidos = document.getElementById("listaPedidos");
 const cerrarSesion = document.getElementById("cerrarSesion");
 
-// Evita insertar texto de pedidos como código HTML.
 function escaparHTML(texto) {
     return String(texto ?? "").replace(/[&<>"']/g, caracter => ({
         "&": "&amp;",
@@ -367,19 +508,16 @@ function escaparHTML(texto) {
     })[caracter]);
 }
 
-// Mostrar el inicio de sesión.
 function mostrarLogin() {
     loginAdmin.hidden = false;
     panelAdmin.hidden = true;
 }
 
-// Mostrar el panel administrativo.
 function mostrarPanel() {
     loginAdmin.hidden = true;
     panelAdmin.hidden = false;
 }
 
-// Cargar los pedidos desde Supabase.
 async function cargarPedidos() {
     mensajePedidos.textContent = "Cargando pedidos...";
     listaPedidos.innerHTML = "";
@@ -451,7 +589,6 @@ formularioLogin.addEventListener("submit", async function(event) {
         return;
     }
 
-    // Comprobar que la cuenta sea la administradora autorizada.
     if (data.user.id !== ADMIN_UID) {
         await supabaseClient.auth.signOut();
         mensajeLogin.textContent = "Esta cuenta no tiene permiso de administración.";
@@ -463,7 +600,7 @@ formularioLogin.addEventListener("submit", async function(event) {
     await cargarPedidos();
 });
 
-// Cambiar el estado de un pedido.
+// Cambiar estado de un pedido.
 listaPedidos.addEventListener("change", async function(event) {
     if (!event.target.classList.contains("estado-pedido")) {
         return;
@@ -502,7 +639,7 @@ cerrarSesion.addEventListener("click", async function() {
     mostrarLogin();
 });
 
-// Comprobar si ya existe una sesión iniciada.
+// Comprobar sesión.
 async function comprobarSesionAdmin() {
     const { data, error } = await supabaseClient.auth.getSession();
 

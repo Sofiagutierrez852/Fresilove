@@ -132,7 +132,6 @@
                     Gomitas 🍬 (+$1.000)
                 </label>
 
-                <!-- DATOS DEL CLIENTE -->
                 <h3>3. Tus datos 💗</h3>
 
                 <label for="nombrePedido">Tu nombre:</label>
@@ -166,12 +165,13 @@
 
             <p>
                 ¿No sabes qué fresitas elegir?
-                ¡Yo te ayudo a encontrar tu combinación perfecta!
+                Cuéntame tus gustos y te ayudaré a encontrar
+                una combinación deliciosa para ti.
             </p>
 
             <div class="asistente-contenido">
 
-                <h3>💗 Cuéntame qué se te antoja</h3>
+                <h3>💗 ¡Vamos a descubrir tu antojo!</h3>
 
                 <label for="gusto">¿Qué tipo de sabor prefieres?</label>
 
@@ -181,14 +181,49 @@
                     <option value="dulce">Algo muy dulce 🍬</option>
                     <option value="clasico">Algo clásico 🍓</option>
                     <option value="especial">Algo especial ✨</option>
+                    <option value="frutal">Algo diferente y divertido 🍓</option>
                 </select>
 
+                <label for="preferenciaAsistente">
+                    ¿Qué ingrediente te gustaría disfrutar?
+                </label>
+
+                <select id="preferenciaAsistente">
+                    <option value="">No tengo preferencia</option>
+                    <option value="oreo">Oreo 🍪</option>
+                    <option value="brownie">Brownie 🍰</option>
+                    <option value="chocolate">Chispas de chocolate 🍫</option>
+                    <option value="gomitas">Gomitas 🍬</option>
+                </select>
+
+                <label for="evitarAsistente">
+                    ¿Hay algún ingrediente que no quieras?
+                </label>
+
+                <select id="evitarAsistente">
+                    <option value="">Ninguno</option>
+                    <option value="chocolate">Chocolate 🍫</option>
+                    <option value="oreo">Oreo 🍪</option>
+                    <option value="brownie">Brownie 🍰</option>
+                    <option value="gomitas">Gomitas 🍬</option>
+                </select>
+
+                <label for="descripcionAntojo">
+                    Cuéntame un poquito más sobre tu antojo (opcional):
+                </label>
+
+                <textarea
+                    id="descripcionAntojo"
+                    placeholder="Ejemplo: Quiero algo dulce para compartir, pero sin chocolate..."
+                    rows="4"
+                ></textarea>
+
                 <button onclick="recomendarFresilove()">
-                    Recomiéndame algo 💗
+                    ¡Descubre mi recomendación! 💗
                 </button>
 
-                <div id="respuestaAsistente">
-                    <p>¡Aquí aparecerá tu recomendación! 🥰</p>
+                <div id="respuestaAsistente" aria-live="polite">
+                    <p>¡Aquí aparecerá tu recomendación personalizada! 🥰🍓</p>
                 </div>
 
             </div>
@@ -242,7 +277,6 @@
 
                 </form>
 
-                <!-- MENSAJE DE CONFIRMACIÓN DEL FORMULARIO -->
                 <p id="mensajeContacto" role="status" aria-live="polite"></p>
 
                 <p class="mensaje-final">
