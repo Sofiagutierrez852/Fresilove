@@ -706,3 +706,42 @@ button[onclick*="personalizar"]:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 18px rgba(255, 79, 123, 0.35);
 }
+/* 🍓 MEJORAS DE ACCESIBILIDAD Y PANEL ADMIN */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #d94378;
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+
+    .administracion {
+        width: 100%;
+        padding: 25px 15px;
+        margin: 25px auto;
+    }
+
+    .login-admin {
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    .encabezado-admin {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #listaPedidos {
+        overflow-x: auto;
+        max-width: 100%;
+    }
+
+    button,
+    .boton-whatsapp {
+        max-width: 100%;
+    }
+}
