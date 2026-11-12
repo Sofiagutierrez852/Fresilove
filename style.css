@@ -773,3 +773,18 @@ html {
 .boton-subir:hover {
     transform: translateY(-4px);
 }
+
+/* Acceso discreto para administración */
+.acceso-admin {
+    display: inline-block;
+    margin-top: 8px;
+    color: #d66b8c;
+    font-size: 12px;
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+.acceso-admin:hover {
+    text-decoration: underline;
+    opacity: 1;
+}

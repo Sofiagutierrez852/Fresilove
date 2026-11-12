@@ -27,10 +27,14 @@ async function guardarPedido(datos) {
         });
 
     if (error) {
-        console.error("Error al guardar el pedido:", error);
-        alert("No pudimos guardar tu pedido. Inténtalo nuevamente.");
-        return false;
-    }
+    console.log(
+        "🍓 ERROR COMPLETO DE SUPABASE:",
+        JSON.stringify(error, null, 2)
+    );
+
+    alert("No pudimos guardar tu pedido. Inténtalo nuevamente.");
+    return false;
+}
 
     console.log("🍓 ¡Pedido guardado correctamente!");
     return true;
@@ -129,8 +133,6 @@ async function crearPedido() {
         alert("Por favor, escribe tu nombre y teléfono antes de continuar 💗");
         return;
     }
-
-    // VALIDAR TELÉFONO: EXACTAMENTE 10 DÍGITOS
 
     if (!/^[0-9]{10}$/.test(telefono)) {
         alert("Tu número de teléfono debe tener exactamente 10 dígitos 💗");
@@ -287,7 +289,6 @@ function recomendarFresilove() {
     const descripcion = document.getElementById("descripcionAntojo").value.toLowerCase();
     const respuesta = document.getElementById("respuestaAsistente");
 
-    // Normalizar texto y eliminar tildes.
     const texto = descripcion
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "");
@@ -309,7 +310,6 @@ function recomendarFresilove() {
         ingredientesEvitados.push(evitar);
     }
 
-    // Detectar ingredientes que el cliente no quiere.
     ingredientes.forEach(function(ingrediente) {
 
         const expresion = new RegExp(
@@ -322,7 +322,6 @@ function recomendarFresilove() {
         }
     });
 
-    // Eliminar las expresiones negativas del texto.
     let textoPositivo = texto;
 
     ingredientes.forEach(function(ingrediente) {
@@ -336,7 +335,6 @@ function recomendarFresilove() {
         textoPositivo = textoPositivo.replace(expresion, " ");
     });
 
-    // Reconocer primero Oreo, antes que chocolate.
     if (!gustoFinal) {
 
         if (textoPositivo.includes("oreo")) {
@@ -365,7 +363,6 @@ function recomendarFresilove() {
         }
     }
 
-    // Solicitar más información si hace falta.
     if (
         !gustoFinal &&
         !preferencia &&
@@ -387,14 +384,12 @@ function recomendarFresilove() {
         return;
     }
 
-    // Evitar que un ingrediente sea favorito y prohibido.
     if (preferencia && ingredientesEvitados.includes(preferencia)) {
         respuesta.textContent =
             "💗 Has elegido el mismo ingrediente como favorito y como ingrediente que deseas evitar. ¡Cambia una de las opciones!";
         return;
     }
 
-    // Elegir base.
     let nombreBase = "Fresitas medianas";
     let precioBase = 10000;
 
@@ -403,7 +398,6 @@ function recomendarFresilove() {
         precioBase = 8000;
     }
 
-    // Elegir toppings.
     let toppings = [];
 
     if (gustoFinal === "chocolate") {
@@ -419,14 +413,12 @@ function recomendarFresilove() {
         toppings = [];
     }
 
-    // Agregar ingrediente favorito.
     if (preferencia && precios[preferencia]) {
         if (!toppings.includes(preferencia)) {
             toppings.push(preferencia);
         }
     }
 
-    // Quitar ingredientes no deseados.
     toppings = toppings.filter(function(topping) {
         return !ingredientesEvitados.includes(topping);
     });
@@ -435,7 +427,6 @@ function recomendarFresilove() {
         toppings = [];
     }
 
-    // Calcular total.
     let total = precioBase;
 
     toppings.forEach(function(topping) {
